@@ -195,3 +195,146 @@ So let's try to parse in an other way and use gnuplot:
 Well, I'm not sure it is nicer but I have lines. A first crude
 analysis seems to reveal the the parallel version is worth it for
 arrays larger than 400000.
+
+** 2018-05-15 Analysis of blaise, draco6, hype4, tupi, knl2, orion3
+*** Experimental design
+
+Each student has run the following code in a different host.
+
+#+begin_src sh foo :results output :exports both :tangle scripts/run_benchmarking.sh
+  OUTPUT_DIRECTORY=data/`hostname`_`date +%F`
+  mkdir -p $OUTPUT_DIRECTORY
+  OUTPUT_FILE=$OUTPUT_DIRECTORY/measurements_`date +%R`.txt
+
+  touch $OUTPUT_FILE
+  for i in 100 1000 10000 100000 1000000 10000000 100000000; do
+      for rep in `seq 1 5`; do
+          echo "Size: $i" >> $OUTPUT_FILE;
+          ./src/parallelQuicksort $i >> $OUTPUT_FILE;
+      done ;
+  done
+#+end_src
+
+*** Analysis
+
+**** Preprocess TXT to single CSV with host as first column
+
+#+begin_src shell :results output
+for file in data/tupi_2018-05-15/measurements_10:57.txt data/blaise_2018-05-15/measurements_10:48.txt data/draco6_2018-05-15/measurements_10:50.txt data/hype4_2018-05-15/measurements_10:46.txt data/jequi_2018-05-15/measurements_10:47.txt data/knl2_2018-05-15/measurements_10:48.txt data/orion3_2018-05-15/measurements_10:48.txt; do
+    NOME=$(echo $file | cut -d"/" -f2 | cut -d"_" -f1)
+    CSV=$(basename $file .txt).csv
+    perl scripts/csv_quicksort_extractor.pl < $file > $CSV
+    cat $CSV | tail -n+2 | sed "s/^/$NOME,/" | sed "s/ //g"
+done > cmp270_May15.csv
+#+end_src
+
+#+RESULTS:
+
+**** Read data
+
+#+begin_src R :results output :session :exports both
+suppressMessages(library(tidyverse));
+df <- read_csv("cmp270_May15.csv", col_names=FALSE, col_types=cols(
+                                                   X1 = col_character(),
+                                                   X2 = col_integer(),
+                                                   X3 = col_character(),
+                                                   X4 = col_double()
+                                               )) %>%
+    rename(Host = X1,
+           Size = X2,
+           Strategy = X3,
+           Time = X4)
+#+end_src
+
+#+RESULTS:
+
+**** Calculate average
+
+#+begin_src R :results output :session :exports both
+df %>%
+    group_by(Host, Size, Strategy) %>%
+    summarize(N=n(),
+              Mean = mean(Time),
+              SD = sd(Time),
+              SE = 3*SD/sqrt(n())) %>%
+    filter(Size == 100000000) -> p;
+p;
+#+end_src
+
+#+RESULTS:
+#+begin_example
+# A tibble: 18 x 7
+# Groups:   Host, Size [6]
+     Host      Size   Strategy     N     Mean         SD         SE
+    <chr>     <int>      <chr> <int>    <dbl>      <dbl>      <dbl>
+ 1 blaise 100000000   Built-in     5 27.44535 0.30598272 0.41051890
+ 2 blaise 100000000   Parallel     5 30.64253 1.31488330 1.76410107
+ 3 blaise 100000000 Sequential     5 26.44270 0.36203074 0.48571521
+ 4 draco6 100000000   Built-in     1 42.42106         NA         NA
+ 5 draco6 100000000   Parallel     1 38.15311         NA         NA
+ 6 draco6 100000000 Sequential     1 39.20502         NA         NA
+ 7  hype4 100000000   Built-in     5 31.93189 0.04884568 0.06553336
+ 8  hype4 100000000   Parallel     5 34.56596 0.49474631 0.66377183
+ 9  hype4 100000000 Sequential     5 31.61215 0.30135966 0.40431641
+10  jequi 100000000   Built-in     5 25.12940 0.33461624 0.44893480
+11  jequi 100000000   Parallel     5 14.36284 0.17969110 0.24108091
+12  jequi 100000000 Sequential     5 24.30120 0.12516626 0.16792817
+13 orion3 100000000   Built-in     5 39.58521 0.40100193 0.53800054
+14 orion3 100000000   Parallel     5 37.51002 0.55632644 0.74639025
+15 orion3 100000000 Sequential     5 36.00592 0.52749020 0.70770237
+16   tupi 100000000   Built-in     5 45.90893 0.01085338 0.01456134
+17   tupi 100000000   Parallel     5 27.42951 0.41426960 0.55580099
+18   tupi 100000000 Sequential     5 45.32739 0.36440582 0.48890171
+#+end_example
+
+**** Plot 
+
+***** Overview
+
+#+begin_src R :results output graphics :file img/overview.png :exports both :width 600 :height 400 :session
+library(ggplot2);
+p %>%
+    ggplot(aes(y=Mean, x=Strategy, color=Host)) +
+    geom_point(size=2) +
+    geom_errorbar(aes(ymin=Mean-SE, ymax=Mean+SE), width=0.1) +
+    theme_bw(base_size=22)
+#+end_src
+
+#+RESULTS:
+[[file:img/overview.png]]
+
+***** Size 10M, all measurements
+
+#+begin_src R :results output graphics :file img/size10M.png :exports both :width 600 :height 400 :session
+library(ggplot2);
+df %>%
+    filter(Size == 10000000) %>%
+    ggplot(aes(y=Time, x=Strategy, color=Host)) +
+    geom_point(size=2) +
+    theme_bw(base_size=22)
+#+end_src
+
+#+RESULTS:
+[[file:img/size10M.png]]
+
+
+**** All size, hosts, etc (averages)
+
+#+begin_src R :results output graphics :file img/all_averages.png :exports both :width 600 :height 400 :session
+library(ggplot2);
+df %>%
+    group_by(Host, Size, Strategy) %>%
+    summarize(N=n(),
+              Mean = mean(Time),
+              SD = sd(Time),
+              SE = 3*SD/sqrt(n())) %>%
+#    filter(Size < 1000000) %>%
+#    filter(Strategy!="Parallel") %>%
+    ggplot(aes(y=Mean, x=Strategy, color=Host)) +
+    geom_point(size=2) +
+    theme_bw(base_size=16) +
+    facet_wrap(~Size)
+#+end_src
+
+#+RESULTS:
+[[file:img/all_averages.png]]
