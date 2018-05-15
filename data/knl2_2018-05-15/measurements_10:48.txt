@@ -1,0 +1,121 @@
+Size: 100
+Sequential quicksort took: 0.000052 sec.
+Parallel quicksort took: 0.090224 sec.
+Built-in quicksort took: 0.000046 sec.
+Size: 100
+Sequential quicksort took: 0.000040 sec.
+Parallel quicksort took: 0.080830 sec.
+Built-in quicksort took: 0.000123 sec.
+Size: 100
+Sequential quicksort took: 0.000037 sec.
+Parallel quicksort took: 0.086732 sec.
+Built-in quicksort took: 0.000089 sec.
+Size: 100
+Sequential quicksort took: 0.000040 sec.
+Parallel quicksort took: 0.085565 sec.
+Built-in quicksort took: 0.000048 sec.
+Size: 100
+Sequential quicksort took: 0.000035 sec.
+Parallel quicksort took: 0.076670 sec.
+Built-in quicksort took: 0.000051 sec.
+Size: 1000
+Sequential quicksort took: 0.000459 sec.
+Parallel quicksort took: 0.342691 sec.
+Built-in quicksort took: 0.000556 sec.
+Size: 1000
+Sequential quicksort took: 0.000486 sec.
+Parallel quicksort took: 0.478493 sec.
+Built-in quicksort took: 0.000592 sec.
+Size: 1000
+Sequential quicksort took: 0.000485 sec.
+Parallel quicksort took: 0.343614 sec.
+Built-in quicksort took: 0.000655 sec.
+Size: 1000
+Sequential quicksort took: 0.000527 sec.
+Parallel quicksort took: 0.342729 sec.
+Built-in quicksort took: 0.000592 sec.
+Size: 1000
+Sequential quicksort took: 0.000527 sec.
+Parallel quicksort took: 0.356046 sec.
+Built-in quicksort took: 0.000557 sec.
+Size: 10000
+Sequential quicksort took: 0.006320 sec.
+Parallel quicksort took: 0.601660 sec.
+Built-in quicksort took: 0.006951 sec.
+Size: 10000
+Sequential quicksort took: 0.006783 sec.
+Parallel quicksort took: 0.849351 sec.
+Built-in quicksort took: 0.008914 sec.
+Size: 10000
+Sequential quicksort took: 0.009751 sec.
+Parallel quicksort took: 0.770766 sec.
+Built-in quicksort took: 0.007125 sec.
+Size: 10000
+Sequential quicksort took: 0.006382 sec.
+Parallel quicksort took: 0.972683 sec.
+Built-in quicksort took: 0.007165 sec.
+Size: 10000
+Sequential quicksort took: 0.006446 sec.
+Parallel quicksort took: 0.683717 sec.
+Built-in quicksort took: 0.006797 sec.
+Size: 100000
+Sequential quicksort took: 0.079021 sec.
+Parallel quicksort took: 0.929839 sec.
+Built-in quicksort took: 0.084372 sec.
+Size: 100000
+Sequential quicksort took: 0.078696 sec.
+Parallel quicksort took: 1.137832 sec.
+Built-in quicksort took: 0.089557 sec.
+Size: 100000
+Sequential quicksort took: 0.074703 sec.
+Parallel quicksort took: 0.835586 sec.
+Built-in quicksort took: 0.088602 sec.
+Size: 100000
+Sequential quicksort took: 0.083001 sec.
+Parallel quicksort took: 0.823216 sec.
+Built-in quicksort took: 0.084399 sec.
+Size: 100000
+Sequential quicksort took: 0.075390 sec.
+Parallel quicksort took: 0.964985 sec.
+Built-in quicksort took: 0.084331 sec.
+Size: 1000000
+Sequential quicksort took: 0.907972 sec.
+Parallel quicksort took: 1.082053 sec.
+Built-in quicksort took: 1.019416 sec.
+Size: 1000000
+Sequential quicksort took: 0.973169 sec.
+Parallel quicksort took: 1.186381 sec.
+Built-in quicksort took: 1.001929 sec.
+Size: 1000000
+Sequential quicksort took: 0.895308 sec.
+Parallel quicksort took: 1.297440 sec.
+Built-in quicksort took: 1.012192 sec.
+Size: 1000000
+Sequential quicksort took: 0.937094 sec.
+Parallel quicksort took: 1.102147 sec.
+Built-in quicksort took: 1.010401 sec.
+Size: 1000000
+Sequential quicksort took: 0.890229 sec.
+Parallel quicksort took: 1.239753 sec.
+Built-in quicksort took: 1.009223 sec.
+Size: 10000000
+Sequential quicksort took: 10.387077 sec.
+Parallel quicksort took: 7.496387 sec.
+Built-in quicksort took: 11.564564 sec.
+Size: 10000000
+Sequential quicksort took: 10.631519 sec.
+Parallel quicksort took: 7.980604 sec.
+Built-in quicksort took: 11.556185 sec.
+Size: 10000000
+Sequential quicksort took: 10.624094 sec.
+Parallel quicksort took: 7.552239 sec.
+Built-in quicksort took: 11.626143 sec.
+Size: 10000000
+Sequential quicksort took: 10.413870 sec.
+Parallel quicksort took: 7.740545 sec.
+Built-in quicksort took: 11.503521 sec.
+Size: 10000000
+Sequential quicksort took: 10.672577 sec.
+Parallel quicksort took: 7.848058 sec.
+Built-in quicksort took: 11.607488 sec.
+Size: 100000000
